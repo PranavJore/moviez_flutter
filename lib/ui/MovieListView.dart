@@ -144,7 +144,11 @@ class MovieListViewDetails extends StatelessWidget {
       body: ListView(
         children: [
           MovieDetailsThumbnail(thumbnail: movie.images[0]),
-          MovieDetailsHeaderWithPoster(movie: movie)
+          MovieDetailsHeaderWithPoster(movie: movie),
+          HorizontalLine(),
+          MovieDetailsCast(movie: movie),
+          HorizontalLine(),
+          MovieDetailsExtraPosters(posters: movie.images)
         ],
       )
     );
@@ -194,12 +198,15 @@ class MovieDetailsHeaderWithPoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        MoviePoster(Poster: movie.images[1]),
-        SizedBox(width: 16),
-        Expanded(child: MovieDetailsHeader(movie: movie))
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          MoviePoster(Poster: movie.images[1]),
+          SizedBox(width: 16),
+          Expanded(child: MovieDetailsHeader(movie: movie))
+        ],
+      ),
     );
   }
 }
@@ -264,3 +271,107 @@ class MovieDetailsHeader extends StatelessWidget {
     );
   }
 }
+class MovieDetailsCast extends StatelessWidget {
+  final Movie movie;
+  const MovieDetailsCast({Key? key, required this.movie}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        children: [
+          MovieFields(field: "Cast",value: movie.actors,),
+          MovieFields(field: "Director",value: movie.director,),
+          MovieFields(field: "Awards",value: movie.awards,)
+        ],
+      ),
+    );
+  }
+}
+
+class MovieFields extends StatelessWidget {
+  final String field;
+  final String value;
+
+  const MovieFields({Key? key, required this.field, required this.value}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("$field : ",style: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w400
+        ),),
+        Expanded(child: Text(value,style: TextStyle(
+            color: Colors.black,fontSize: 13,fontWeight: FontWeight.w300
+        ),))
+      ],
+    );
+  }
+}
+
+class HorizontalLine extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+      child: Container(
+        height: 0.5,
+        color: Colors.black,
+      ),
+    );
+  }
+}
+
+class MovieDetailsExtraPosters extends StatelessWidget {
+  final List<String> posters;
+
+  const MovieDetailsExtraPosters({Key? key, required this.posters}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left:10.0),
+          child: Text("Some stills from movie...".toUpperCase(),style: TextStyle(
+              fontSize: 14,
+              color: Colors.black
+          ),),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left:10.0,right: 10.0),
+          child: Container(
+            height: 170,
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context,index) => SizedBox(width: 8,),
+              itemCount: posters.length,
+              itemBuilder: (context,index) => ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 160,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(posters[index]),
+                          fit: BoxFit.cover
+                      )
+                  ),
+                ),
+              ),
+
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
