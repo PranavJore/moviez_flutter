@@ -14,11 +14,6 @@ class MovieListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CinemaHolic'),
-        backgroundColor: (Colors.blue.shade900),
-      ),
-      backgroundColor: Colors.blue.shade50,
       body: ListView.builder(
           itemCount: movieList.length,
           itemBuilder: (BuildContext context, int index) {
@@ -137,20 +132,20 @@ class MovieListViewDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Movie"),
-        backgroundColor: Colors.blue.shade900,
-      ),
-      body: ListView(
-        children: [
-          MovieDetailsThumbnail(thumbnail: movie.images[0]),
-          MovieDetailsHeaderWithPoster(movie: movie),
-          HorizontalLine(),
-          MovieDetailsCast(movie: movie),
-          HorizontalLine(),
-          MovieDetailsExtraPosters(posters: movie.images)
-        ],
-      )
+        appBar: AppBar(
+          title: Text("Movie Details"),
+          backgroundColor: Colors.blue.shade900,
+        ),
+        body: ListView(
+          children: [
+            MovieDetailsThumbnail(thumbnail: movie.images[0]),
+            MovieDetailsHeaderWithPoster(movie: movie),
+            HorizontalLine(),
+            MovieDetailsCast(movie: movie),
+            HorizontalLine(),
+            MovieDetailsExtraPosters(posters: movie.images)
+          ],
+        )
     );
   }
 }
@@ -175,15 +170,15 @@ class MovieDetailsThumbnail extends StatelessWidget {
                   image: DecorationImage(image:NetworkImage(thumbnail), fit: BoxFit.cover)
               ),
             ),
-            Icon(Icons.play_circle_outline, size: 100, color: Colors.black,)
+            Icon(Icons.play_circle_outline, size: 100, color: Colors.white70,)
           ],
         ),
         Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0x00000), Color(0xfff5f5f5)],
-            begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            )
+              gradient: LinearGradient(colors: [Color(0x00000), Color(0xfff5f5f5)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )
           ),
           height: 50,
         )
@@ -224,9 +219,9 @@ class MoviePoster extends StatelessWidget {
           width: MediaQuery.of(context).size.width/4,
           height: 160,
           decoration: BoxDecoration(
-            image: DecorationImage(
+              image: DecorationImage(
                 image: NetworkImage(Poster), fit: BoxFit.cover,
-            )
+              )
           ),
         ),
       ),
@@ -250,22 +245,22 @@ class MovieDetailsHeader extends StatelessWidget {
           ),
         ),
         Text("${movie.title}" , style: TextStyle(
-          fontWeight:  FontWeight.w700,
-          fontSize: 32
+            fontWeight:  FontWeight.w700,
+            fontSize: 32
         ),),
         Text.rich(TextSpan(
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w300
-          ),
-          children: [
-            TextSpan(
-              text: movie.plot
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w300
             ),
-            TextSpan(text: "More...", style: TextStyle(
-              color: Colors.indigoAccent
-            ))
-          ]
+            children: [
+              TextSpan(
+                  text: movie.plot
+              ),
+              TextSpan(text: "More...", style: TextStyle(
+                  color: Colors.indigoAccent
+              ))
+            ]
         )),
       ],
     );
@@ -373,5 +368,6 @@ class MovieDetailsExtraPosters extends StatelessWidget {
     );
   }
 }
+
 
 
